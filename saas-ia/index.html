@@ -4,15 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aprendiendo con IA</title>
+
+    <!-- 🔥 CAMBIO 1: ESTILOS -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #0f172a, #1e3a8a);
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        p {
+            color: #cbd5f5;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        img {
+            width: 300px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            background-color: #3b82f6;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        a:hover {
+            background-color: #2563eb;
+        }
+
+        input {
+            padding: 10px;
+            width: 250px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #22c55e;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #16a34a;
+        }
+    </style>
 </head>
+
 <body>
 
-    <!-- Las etiquetas h1 son titulos -->
+    <!-- 🔥 CAMBIO 2: CONTENEDOR -->
+    <div class="container">
 
-        <h1>EL FUTURO ESTA AQUI</h1>
-    <!-- Las etiquetas p son parrafos -->
+        <h1>EL FUTURO ESTÁ AQUÍ</h1>
         <p>Automatiza procesos con inteligencia artificial</p>
-    <!-- Las etiquetas h2 son subtitulos -->
+
         <h2>¿Qué hacemos?</h2>
         <p>
             Creamos herramientas que ayudan a empresas a ahorrar tiempo,
@@ -24,29 +101,31 @@
             Empresas que quieren digitalizarse y mejorar su eficiencia
             sin complicaciones técnicas.
         </p>
-    <!-- Las etiquetas ul y li bloque y puntos -->
-    <ul>
-        <li>Automatización</li>
-        <li>IA</li>
-        <li>Datos</li>
-    </ul>
-    <!-- Agregando una imagen con img -->
-    <img src="ia.jpg" alt="LogoIA" width="350" height="350">
-    <img src="https://www.futuroprossimo.it/wp-content/uploads/2024/04/embodiment.jpg" alt="LogoIA2" width="300" height="350">
-    
-    <!-- br Salto de linea -->
-    <br>
-    <!-- a href = en el enlace de la web -->
-    <a href="https://github.com/petteroyd" target="_blank"> Visita mi perfil de Github </a>
-    
-    <h2>Habla con la IA</h2>
-    <form>
-        <label>Tu petición</label>
-        <input type="text" placeholder="Ej: Se un experto en programación, generame un index.html responsive">
-        <button type="button"> Enviar a la IA </button>
-    </form>
 
+        <ul>
+            <li>🚀 Automatización</li>
+            <li>🤖 Inteligencia Artificial</li>
+            <li>📊 Análisis de Datos</li>
+        </ul>
 
+        <img src="ia.jpg" alt="LogoIA">
+        <img src="https://www.futuroprossimo.it/wp-content/uploads/2024/04/embodiment.jpg" alt="LogoIA2">
+
+        <br>
+
+        <a href="https://github.com/petteroyd" target="_blank">
+            Ver mi GitHub
+        </a>
+
+        <h2>Habla con la IA</h2>
+
+        <form>
+            <label>Tu petición</label><br>
+            <input type="text" placeholder="Ej: crea una web moderna">
+            <button type="button">Enviar</button>
+        </form>
+
+    </div>
 
 </body>
 </html>
