@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    /* Efecto Wow 1: fondo degradado */
+    background: linear-gradient(135deg, #134b26 0%, #83a29c 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.form-container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 450px;
+    text-align: center;
+}
+
+.form-container h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.form-container p {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+
+}
+
+.input-group input:focus {
+    border-color: #35e97b;
+}
+
+.btn-enviar{
+    width: 100%;
+    padding: 15px;
+    background: #134b26;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-enviar:hover{
+    background: #258947;
+    color: #333;
+    transform: scale(1.02);
+}
+
+/* RESPONSIVE DESIGN (MOVILES) */
+
+@media (max-width: 500px){
+    .form-container{
+        width: 100%;
+        padding: 20px;
+    }
+    body{
+        background: #2c623e;
+    }
+}
