@@ -1,9 +1,11 @@
+/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* BODY / LAYOUT PRINCIPAL */
 body {
     min-height: 100vh;
     display: grid;
@@ -15,32 +17,38 @@ body {
         "footer footer";
     background-color: #1e1e1e;
     color: #fff;
-    font-family: sans-serif;
+    font-family: "Segoe UI", sans-serif;
 }
 
+/* HEADER */
 header {
     grid-area: header;
     background-color: #111;
-    text-align: center;
-    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 1.5rem;
 }
 
+/* FOOTER */
 footer {
     grid-area: footer;
     background-color: #111;
     text-align: center;
-    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-nav ul {
-    list-style-type: none;
-}
-
+/* NAV */
 nav {
     grid-area: nav;
     background-color: #222;
     padding: 20px;
+}
+
+nav ul {
+    list-style: none;
 }
 
 nav li {
@@ -50,48 +58,89 @@ nav li {
 nav a {
     color: #fff;
     text-decoration: none;
-    padding: 5px;
+    padding: 8px;
     display: block;
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
 nav a:hover {
     background: dimgray;
-    border-radius: 5px;
 }
 
+/* GALERÍA */
 .gallery {
     grid-area: gallery;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     padding: 20px;
-    grid-template-rows: 300px;
 }
 
+/* TARJETAS */
 .thumb {
     border-radius: 10px;
     overflow: hidden;
     border: 2px solid #444;
+    transition: 0.3s;
 }
 
+/* IMÁGENES */
 .thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: 0.3s;
+}
+
+/* HOVER MÁS PRO */
+.thumb:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
 }
 
 .thumb img:hover {
     transform: scale(1.05);
 }
 
+/* PORTADA */
 .gallery.portada {
     display: flex;
-    justify-content: cemter;
+    justify-content: center;
     align-items: center;
 }
 
 .gallery.portada img {
     max-width: 800px;
+    width: 100%;
     height: auto;
     border-radius: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 60px auto 1fr 30px;
+        grid-template-areas:
+            "header"
+            "nav"
+            "gallery"
+            "footer";
+    }
+
+    nav {
+        padding: 10px;
+    }
+
+    nav ul {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    nav li {
+        margin-bottom: 0;
+    }
 }
