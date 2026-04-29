@@ -101,3 +101,33 @@
     border-radius: 5px;
     color: black;
 }
+@media (max-width: 768px){
+    .sidebar{
+        display: none;
+    }
+    .mensajes-container{
+        padding: 20px;
+    }
+    .input-area{
+        padding: 15px;
+    }
+    .chat-form{
+        flex-direction: row;
+        padding: 5px;
+    }
+    .chat-form input{
+        font-size: 0.9rem;
+    }
+    .chat-form button{
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width:480){
+    .chat-header h3{
+    font-size: 1.1rem;
+}
+    .mensaje-ia{
+        font-size: 0.95rem;
+    }
+}
