@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenPath | Cursos de Programación Gratis con Certificado Oficial</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Encuentra, filtra y cursa los mejores programas de desarrollo de Harvard, Helsinki, Cisco y freeCodeCamp gratis con certificados oficiales.">
+    <meta name="keywords" content="cursos programacion gratis, aprender desarrollo web, certificados gratis, harvard cs50, python, react gratis">
+    
+    <!-- Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        background: {
+                            dark: '#030303',
+                            light: '#f8fafc',
+                        },
+                        surface: {
+                            dark: '#0a0a0c',
+                            light: '#ffffff',
+                            darkHover: '#121215',
+                            lightHover: '#f1f5f9',
+                        },
+                        border: {
+                            dark: 'rgba(255, 255, 255, 0.08)',
+                            light: 'rgba(0, 0, 0, 0.08)',
+                        },
+                        brand: {
+                            cyan: '#06b6d4',
+                            blue: '#3b82f6',
+                            violet: '#8b5cf6',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(40px, -40px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for specialized premium effects -->
+    <style>
+        /* Modern Grid Background */
+        .bg-grid-dark {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+        }
+
+        .bg-grid-light {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+        }
+
+        /* Glassmorphism utilities */
+        .glass-panel-dark {
+            background: rgba(10, 10, 12, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #2a2a2e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #3b82f6, #06b6d4, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300 antialiased selection:bg-brand-blue selection:text-white dark:bg-background-dark bg-background-light dark:text-gray-100 text-gray-900 overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const COURSES = [
+            {
+                id: 1,
+                platform: "freeCodeCamp",
+                title: "Responsive Web Design Certification",
+                tech: ["HTML", "CSS", "Flexbox", "Grid"],
+                difficulty: "Principiante",
+                duration: "300 horas",
+                cert: true,
+                rating: 4.9,
+                description: "Domina las estructuras modernas de la web. Aprende accesibilidad y diseño adaptativo construyendo proyectos reales.",
+                url: "https://www.freecodecamp.org/learn/responsive-web-design/",
+                category: "Frontend",
+                color: "bg-emerald-500",
+                initials: "FCC"
+            },
+            {
+                id: 2,
+                platform: "Harvard University",
+                title: "CS50x: Introduction to Computer Science",
+                tech: ["C", "Python", "SQL", "Flask", "JS"],
+                difficulty: "Intermedio",
+                duration: "12 semanas",
+                cert: true,
+                rating: 5.0,
+                description: "La joya de la corona académica. Desarrolla un pensamiento algorítmico profundo y domina la computación clásica.",
+                url: "https://pll.harvard.edu/course/cs50-introduction-computer-science",
+                category: "Computer Science",
+                color: "bg-red-600",
+                initials: "CS50"
+            },
+            {
+                id: 3,
+                platform: "Harvard University",
+                title: "CS50P: Programming with Python",
+                tech: ["Python", "Algorithms", "Testing", "RegEx"],
+                difficulty: "Principiante",
+                duration: "10 semanas",
+                cert: true,
+                rating: 4.8,
+                description: "Una inmersión guiada de primer nivel en la sintaxis, APIs y robustez que ofrece el ecosistema Python.",
+                url: "https://pll.harvard.edu/course/cs50s-introduction-programming-python",
+                category: "Python",
+                color: "bg-yellow-500",
+                initials: "CS50P"
+            },
+            {
+                id: 4,
+                platform: "University of Helsinki",
+                title: "Full Stack Open",
+                tech: ["React", "Node.js", "MongoDB", "GraphQL", "TS"],
+                difficulty: "Avanzado",
+                duration: "160 horas",
+                cert: true,
+                rating: 4.9,
+                description: "El estándar de oro para el desarrollo web moderno. React completo, testing riguroso, CI/CD y arquitecturas escalables.",
+                url: "https://fullstackopen.com/",
+                category: "Full Stack",
+                color: "bg-indigo-600",
+                initials: "FSO"
+            },
+            {
+                id: 5,
+                platform: "University of Helsinki",
+                title: "MOOC.fi: Java Programming",
+                tech: ["Java", "OOP", "Data Structures"],
+                difficulty: "Principiante",
+                duration: "14 semanas",
+                cert: true,
+                rating: 4.7,
+                description: "Domina la programación orientada a objetos (OOP) con este completo y exigente curso interactivo.",
+                url: "https://java-programming.mooc.fi/",
+                category: "Backend",
+                color: "bg-cyan-600",
+                initials: "MOOC"
+            },
+            {
+                id: 6,
+                platform: "OpenLearn (The Open University)",
+                title: "Introduction to Computers and IT",
+                tech: ["Computación", "IT Basics", "Web Architecture"],
+                difficulty: "Principiante",
+                duration: "16 horas",
+                cert: true,
+                rating: 4.5,
+                description: "Excelente punto de partida para aprender arquitectura de redes, computación en la nube y fundamentos de sistemas.",
+                url: "https://www.open.edu/openlearn/science-maths-technology/computing-ict/introduction-computing-and-it/content-section-0",
+                category: "IT",
+                color: "bg-slate-500",
+                initials: "OL"
+            },
+            {
+                id: 7,
+                platform: "SoloLearn",
+                title: "Fundamentos de SQL e Interacción",
+                tech: ["SQL", "Relational DB", "Queries"],
+                difficulty: "Principiante",
+                duration: "12 horas",
+                cert: true,
+                rating: 4.6,
+                description: "Aprende el lenguaje universal para gestionar y consultar bases de datos relacionales con microdesafíos rápidos.",
+                url: "https://www.sololearn.com/en/learn/courses/sql-introduction",
+                category: "Bases de datos",
+                color: "bg-violet-600",
+                initials: "SL"
+            },
+            {
+                id: 8,
+                platform: "HackerRank",
+                title: "Developer Skills Verification",
+                tech: ["Problem Solving", "Data Structures", "SQL", "JS"],
+                difficulty: "Intermedio",
+                duration: "A tu ritmo",
+                cert: true,
+                rating: 4.7,
+                description: "Pon a prueba tu lógica algorítmica y obtén credenciales de habilidades técnicas valoradas en procesos de contratación.",
+                url: "https://www.hackerrank.com/skills-verification",
+                category: "Problem Solving",
+                color: "bg-emerald-600",
+                initials: "HR"
+            },
+            {
+                id: 9,
+                platform: "Great Learning Academy",
+                title: "Artificial Intelligence Foundations",
+                tech: ["Machine Learning", "Neural Networks", "Python"],
+                difficulty: "Intermedio",
+                duration: "4 horas",
+                cert: true,
+                rating: 4.6,
+                description: "Explora las matemáticas aplicadas y conceptos detrás del aprendizaje profundo y la inteligencia artificial moderna.",
+                url: "https://www.mygreatlearning.com/academy/campaign/free-courses-with-certificates",
+                category: "IA",
+                color: "bg-orange-600",
+                initials: "GL"
+            },
+            {
+                id: 10,
+                platform: "Simplilearn SkillUp",
+                title: "Advanced Git & GitHub Workflows",
+                tech: ["Git", "GitHub", "CI/CD", "DevOps"],
+                difficulty: "Intermedio",
+                duration: "6 horas",
+                cert: true,
+                rating: 4.8,
+                description: "Domina el control de versiones, ramas, pull requests seguros y flujos de integración continua en equipo.",
+                url: "https://www.simplilearn.com/advanced-git-and-github-free-course-skillup",
+                category: "DevOps",
+                color: "bg-sky-600",
+                initials: "SLU"
+            },
+            {
+                id: 11,
+                platform: "Cisco Networking Academy",
+                title: "Skills For All: Python Essentials 1",
+                tech: ["Python", "Variables", "Loops", "Functions"],
+                difficulty: "Principiante",
+                duration: "30 horas",
+                cert: true,
+                rating: 4.9,
+                description: "Ruta de Cisco de alta calidad estructurada para aprender lógica computacional y sintaxis básica de Python desde cero.",
+                url: "https://skillsforall.com/course/python-essentials-1",
+                category: "Python",
+                color: "bg-blue-600",
+                initials: "CSFA"
+            }
+        ];
+
+        const ROADMAP_STEPS = [
+            { id: 1, title: "HTML & CSS", subtitle: "Maquetación", desc: "Estructura semántica, Flexbox, Grid Layouts y responsive design.", resources: ["Responsive Web Design (freeCodeCamp)", "OpenLearn Computing Basics"] },
+            { id: 2, title: "JavaScript Core", subtitle: "Programación", desc: "Lógica básica, manipulación del DOM, asincronía y peticiones a APIs.", resources: ["HackerRank JS Verification", "SoloLearn JS Intro"] },
+            { id: 3, title: "React", subtitle: "Frontend Library", desc: "Componentes, hooks esenciales (useState, useEffect) y flujo de datos.", resources: ["Full Stack Open (Helsinki)", "Great Learning Web Basics"] },
+            { id: 4, title: "Backend Essentials", subtitle: "Servidores", desc: "Introducción a Node.js, Express y lógica del lado del servidor.", resources: ["MOOC.fi Java Core", "CS50x Harvard"] },
+            { id: 5, title: "APIs & REST", subtitle: "Integraciones", desc: "Creación y consumo de servicios API seguros y arquitectura REST.", resources: ["Full Stack Open (Finlandia)", "Simplilearn SkillUp"] },
+            { id: 6, title: "Bases de datos", subtitle: "Almacenamiento", desc: "Uso de SQL (relacional) y bases de datos NoSQL como MongoDB.", resources: ["SoloLearn SQL Fundamentos", "CS50x Database Module"] },
+            { id: 7, title: "Full Stack Merge", subtitle: "Arquitectura", desc: "Conexión de cliente y servidor asegurando autenticación y despliegue.", resources: ["Full Stack Open (Comprehensive)"] },
+            { id: 8, title: "Portfolio & GitHub", subtitle: "Empleabilidad", desc: "Despliegue de proyectos independientes y configuración avanzada de Git.", resources: ["Simplilearn Git Complete", "Cisco Networking Dev Basics"] }
+        ];
+
+        const App = () => {
+            const [theme, setTheme] = useState(() => {
+                const stored = localStorage.getItem('theme');
+                if (stored) return stored;
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            });
+
+            // Filtering State
+            const [searchQuery, setSearchQuery] = useState("");
+            const [selectedFilters, setSelectedFilters] = useState([]);
+            
+            // Roadmap Navigation
+            const [activeRoadmapStep, setActiveRoadmapStep] = useState(0);
+
+            // Grok AI Chat Integration
+            const [apiKey, setApiKey] = useState(() => localStorage.getItem('grok_api_key') || "");
+            const [showApiKeyInput, setShowApiKeyInput] = useState(false);
+            const [chatMessages, setChatMessages] = useState([
+                { id: 1, role: 'assistant', text: "¡Hola! Soy tu asistente de orientación. Puedes preguntarme qué tecnologías se adaptan mejor a tus objetivos o cómo conectar la API real de Grok." }
+            ]);
+            const [chatInput, setChatInput] = useState("");
+            const [chatLoading, setChatLoading] = useState(false);
+            const chatEndRef = useRef(null);
+
+            // Newsletter
+            const [emailInput, setEmailInput] = useState("");
+            const [newsletterStatus, setNewsletterStatus] = useState("idle"); // idle, loading, success
+
+            // FAQ accordion
+            const [faqOpen, setFaqOpen] = useState(null);
+
+            // Responsive Nav Menu
+            const [mobileMenu, setMobileMenu] = useState(false);
+
+            // Effect to manage Theme Classes
+            useEffect(() => {
+                const root = document.documentElement;
+                if (theme === 'dark') {
+                    root.classList.add('dark');
+                    root.classList.remove('light');
+                } else {
+                    root.classList.add('light');
+                    root.classList.remove('dark');
+                }
+                localStorage.setItem('theme', theme);
+            }, [theme]);
+
+            // Auto-scroll inside chat
+            useEffect(() => {
+                chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }, [chatMessages, chatLoading]);
+
+            // Auto-reinitialize Lucide icons
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, [chatMessages, showApiKeyInput, mobileMenu, theme]);
+
+            const toggleTheme = () => {
+                setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+            };
+
+            const toggleFilter = (filter) => {
+                setSelectedFilters(prev => 
+                    prev.includes(filter) 
+                        ? prev.filter(f => f !== filter) 
+                        : [...prev, filter]
+                );
+            };
+
+            const filteredCourses = COURSES.filter(course => {
+                const query = searchQuery.toLowerCase().trim();
+                const matchesSearch = !query || 
+                    course.title.toLowerCase().includes(query) ||
+                    course.platform.toLowerCase().includes(query) ||
+                    course.tech.some(t => t.toLowerCase().includes(query)) ||
+                    course.category.toLowerCase().includes(query);
+
+                if (!matchesSearch) return false;
+                if (selectedFilters.length === 0) return true;
+
+                // Return true if course matches ALL active filters
+                return selectedFilters.every(filter => {
+                    if (filter === "Certificado Gratis") return course.cert;
+                    if (["Principiante", "Intermedio", "Avanzado"].includes(filter)) return course.difficulty === filter;
+                    if (course.category === filter) return true;
+                    if (course.tech.includes(filter)) return true;
+                    return false;
+                });
+            });
+
+            const handleNewsletterSubmit = (e) => {
+                e.preventDefault();
+                if (!emailInput || !emailInput.includes("@")) {
+                    alert("Por favor, introduce un correo electrónico válido.");
+                    return;
+                }
+                setNewsletterStatus("loading");
+                setTimeout(() => {
+                    // Simulated persistence inside localStorage
+                    const emails = JSON.parse(localStorage.getItem('openpath_newsletter') || "[]");
+                    emails.push(emailInput);
+                    localStorage.setItem('openpath_newsletter', JSON.stringify(emails));
+                    setNewsletterStatus("success");
+                    setEmailInput("");
+                    setTimeout(() => setNewsletterStatus("idle"), 5000);
+                }, 1000);
+            };
+
+            const handleSaveApiKey = (e) => {
+                e.preventDefault();
+                localStorage.setItem('grok_api_key', apiKey.trim());
+                setShowApiKeyInput(false);
+                setChatMessages(prev => [
+                    ...prev,
+                    { id: Date.now(), role: 'system', text: `🔐 API Key de Grok configurada con éxito. ¡Listo para interactuar!` }
+                ]);
+            };
+
+            const handleRemoveApiKey = () => {
+                localStorage.removeItem('grok_api_key');
+                setApiKey("");
+                setChatMessages(prev => [
+                    ...prev,
+                    { id: Date.now(), role: 'system', text: "🗑️ API Key eliminada. El asistente volverá al modo simulación." }
+                ]);
+            };
+
+            const handleSendMessage = async (e) => {
+                e.preventDefault();
+                if (!chatInput.trim()) return;
+
+                const userText = chatInput;
+                const userMsgId = Date.now();
+                setChatMessages(prev => [...prev, { id: userMsgId, role: 'user', text: userText }]);
+                setChatInput("");
+                setChatLoading(true);
+
+                if (apiKey.trim()) {
+                    // CONEXIÓN DIRECTA Y REAL CON LA API DE GROK (xAI)
+                    try {
+                        // Construimos el historial de conversación en formato oficial
+                        const previousFormatted = chatMessages
+                            .filter(m => m.role !== 'system')
+                            .map(m => ({
+                                role: m.role === 'assistant' ? 'assistant' : 'user',
+                                content: m.text
+                            }));
+
+                        const response = await fetch("https://api.x.ai/v1/chat/completions", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${apiKey.trim()}`
+                            },
+                            body: JSON.stringify({
+                                model: "grok-beta", // O usa "grok-2-1212" según disponibilidad de cuenta
+                                messages: [
+                                    { 
+                                        role: "system", 
+                                        content: "Eres un mentor senior de desarrollo de software para la plataforma OpenPath. Ayuda de manera concisa a elegir el mejor curso basándote en la base de datos de cursos (freeCodeCamp, Harvard CS50, Full Stack Helsinki, etc.). Responde con un tono motivador, tecnológico y profesional, en español." 
+                                    },
+                                    ...previousFormatted,
+                                    { role: "user", content: userText }
+                                ],
+                                temperature: 0.7
+                            })
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`Error de red: ${response.status} ${response.statusText}`);
+                        }
+
+                        const data = await response.json();
+                        const answer = data.choices[0].message.content;
+                        setChatMessages(prev => [...prev, { id: Date.now(), role: 'assistant', text: answer }]);
+
+                    } catch (err) {
+                        setChatMessages(prev => [
+                            ...prev,
+                            { 
+                                id: Date.now(), 
+                                role: 'system', 
+                                text: `🚨 Error al conectar con Grok: ${err.message}. Verifica que tu API Key sea válida e incluya saldo en la consola xAI console.` 
+                            }
+                        ]);
+                    } finally {
+                        setChatLoading(false);
+                    }
+                } else {
+                    // SIMULACIÓN DE RESPUESTA INTELIGENTE SIN RECARGAR EL SERVIDOR (RESPUESTA DE CLIENTE SECCIÓN RESPONSES)
+                    setTimeout(() => {
+                        let dynamicReply = "Interesante pregunta. Para guiarte de forma óptima, te recomiendo revisar el curso CS50x de Harvard si buscas fundamentos algorítmicos potentes, o Full Stack Open de Helsinki si deseas saltar a React y Node.js de inmediato.";
+                        
+                        const normalizedText = userText.toLowerCase();
+                        if (normalizedText.includes("python")) {
+                            dynamicReply = "¡Veo que te interesa Python! El mejor punto de partida mundial es 'CS50P: Programming with Python' de Harvard o 'Skills For All' de Cisco, ambos incluidos y filtrables en la sección de arriba.";
+                        } else if (normalizedText.includes("react") || normalizedText.includes("frontend")) {
+                            dynamicReply = "Para desarrollo Frontend con React, el camino ideal es completar la certificación Responsive Web Design de freeCodeCamp y después dar el salto a 'Full Stack Open' de la Universidad de Helsinki.";
+                        } else if (normalizedText.includes("cero") || normalizedText.includes("empezar") || normalizedText.includes("principiante")) {
+                            dynamicReply = "Si empiezas desde cero, te sugiero activar los filtros 'Principiante' y 'Certificado Gratis' arriba. 'Responsive Web Design' de freeCodeCamp te dará bases perfectas sin frustraciones iniciales.";
+                        } else if (normalizedText.includes("backend") || normalizedText.includes("servidor")) {
+                            dynamicReply = "Para dominar Backend puedes optar por 'MOOC.fi Java Programming' para aprender estructuración sólida orientada a objetos, o bien el bloque de servidores en 'Full Stack Open' con Node y Express.";
+                        } else if (normalizedText.includes("grok") || normalizedText.includes("api")) {
+                            dynamicReply = "¡Exacto! Esta interfaz está totalmente conectada para interactuar con Grok. Haz clic en 'Configurar Grok API' en el banner superior de este chat para usar tus credenciales de xAI y probarlo de forma 100% real.";
+                        }
+
+                        setChatMessages(prev => [...prev, { id: Date.now(), role: 'assistant', text: dynamicReply }]);
+                        setChatLoading(false);
+                    }, 1200);
+                }
+            };
+
+            return (
+                <div className="min-h-screen relative">
+                    {}
+                    <div className="fixed inset-0 pointer-events-none z-0">
+                        <div className="absolute inset-0 dark:bg-grid-dark bg-grid-light opacity-100"></div>
+                        <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-brand-blue/10 dark:bg-brand-blue/5 rounded-full blur-[120px] mix-blend-screen animate-blob"></div>
+                        <div className="absolute top-1/2 right-1/4 w-[350px] h-[350px] bg-brand-violet/10 dark:bg-brand-violet/5 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-2000"></div>
+                    </div>
+
+                    {}
+                    <header className="sticky top-0 z-50 w-full transition-all duration-300 dark:bg-background-dark/80 bg-background-light/85 backdrop-blur-md border-b dark:border-border-dark border-border-light">
+                        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                            {/* Logo */}
+                            <a href="#inicio" className="flex items-center gap-2.5 group">
+                                <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-brand-blue via-brand-cyan to-brand-violet flex items-center justify-center transform group-hover:rotate-6 transition-transform shadow-lg">
+                                    <span className="font-extrabold text-white text-base">OP</span>
+                                </div>
+                                <span className="font-bold text-xl tracking-tight dark:text-white text-slate-900">
+                                    Open<span className="text-brand-cyan">Path</span>
+                                </span>
+                            </a>
+
+                            {/* Desktop Menu */}
+                            <nav className="hidden md:flex items-center gap-8">
+                                <a href="#inicio" className="text-sm font-medium dark:text-gray-300 dark:hover:text-white text-gray-600 hover:text-slate-950 transition-colors">Inicio</a>
+                                <a href="#cursos" className="text-sm font-medium dark:text-gray-300 dark:hover:text-white text-gray-600 hover:text-slate-950 transition-colors">Cursos</a>
+                                <a href="#roadmap" className="text-sm font-medium dark:text-gray-300 dark:hover:text-white text-gray-600 hover:text-slate-950 transition-colors">Roadmap</a>
+                                <a href="#ia-chat" className="text-sm font-medium dark:text-gray-300 dark:hover:text-white text-gray-600 hover:text-slate-950 transition-colors flex items-center gap-1.5">
+                                    Orientador IA 
+                                    <span className="px-1.5 py-0.5 text-[9px] font-bold rounded bg-brand-cyan/10 text-brand-cyan uppercase animate-pulse">Grok</span>
+                                </a>
+                                <a href="#faq" className="text-sm font-medium dark:text-gray-300 dark:hover:text-white text-gray-600 hover:text-slate-950 transition-colors">FAQ</a>
+                            </nav>
+
+                            {/* Header Actions */}
+                            <div className="hidden md:flex items-center gap-4">
+                                {/* Theme Switcher */}
+                                <button 
+                                    onClick={toggleTheme}
+                                    className="p-2.5 rounded-lg dark:bg-white/5 bg-slate-100 hover:bg-slate-200 dark:hover:bg-white/10 border dark:border-white/5 border-slate-200 transition-colors text-yellow-500 dark:text-blue-400"
+                                    aria-label="Toggle theme"
+                                >
+                                    {theme === 'dark' ? <i data-lucide="sun"></i> : <i data-lucide="moon"></i>}
+                                </button>
+                                <a href="#cursos" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 dark:bg-white bg-slate-900 text-white dark:text-slate-950 hover:opacity-90 active:scale-[0.98]">
+                                    Explorar Cursos
+                                </a>
+                            </div>
+
+                            {/* Mobile Toggle Button */}
+                            <div className="flex md:hidden items-center gap-3">
+                                <button 
+                                    onClick={toggleTheme}
+                                    className="p-2 rounded-lg dark:bg-white/5 bg-slate-100 border dark:border-white/5 border-slate-200 text-yellow-500 dark:text-blue-400"
+                                >
+                                    {theme === 'dark' ? <i data-lucide="sun" className="w-5 h-5"></i> : <i data-lucide="moon" className="w-5 h-5"></i>}
+                                </button>
+                                <button 
+                                    onClick={() => setMobileMenu(prev => !prev)}
+                                    className="p-2 rounded-lg dark:text-white text-slate-800"
+                                >
+                                    {mobileMenu ? <i data-lucide="x"></i> : <i data-lucide="menu"></i>}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Mobile Dropdown */}
+                        {mobileMenu && (
+                            <div className="md:hidden w-full px-6 py-4 border-t dark:border-border-dark border-border-light dark:bg-background-dark bg-background-light flex flex-col gap-4 animate-fade-in">
+                                <a 
+                                    href="#inicio" 
+                                    onClick={() => setMobileMenu(false)}
+                                    className="text-base font-semibold py-1 hover:text-brand-cyan transition-colors"
+                                >
+                                    Inicio
+                                </a>
+                                <a 
+                                    href="#cursos" 
+                                    onClick={() => setMobileMenu(false)}
+                                    className="text-base font-semibold py-1 hover:text-brand-cyan transition-colors"
+                                >
+                                    Cursos
+                                </a>
+                                <a 
+                                    href="#roadmap" 
+                                    onClick={() => setMobileMenu(false)}
+                                    className="text-base font-semibold py-1 hover:text-brand-cyan transition-colors"
+                                >
+                                    Roadmap
+                                </a>
+                                <a 
+                                    href="#ia-chat" 
+                                    onClick={() => setMobileMenu(false)}
+                                    className="text-base font-semibold py-1 flex items-center justify-between hover:text-brand-cyan transition-colors"
+                                >
+                                    Orientador IA <span className="text-xs px-2 py-0.5 rounded bg-brand-cyan/20 text-brand-cyan font-bold uppercase">Grok</span>
+                                </a>
+                                <a 
+                                    href="#faq" 
+                                    onClick={() => setMobileMenu(false)}
+                                    className="text-base font-semibold py-1 hover:text-brand-cyan transition-colors"
+                                >
+                                    FAQ
+                                </a>
+                                <a 
+                                    href="#cursos" 
+                                    onClick={() => setMobileMenu(false)}
+                                    className="w-full text-center py-3 rounded-xl dark:bg-white bg-slate-900 text-white dark:text-slate-950 font-bold"
+                                >
+                                    Explorar Cursos
+                                </a>
+                            </div>
+                        )}
+                    </header>
+
+                    {}
+                    <section id="inicio" className="relative pt-20 pb-16 md:pt-36 md:pb-28 overflow-hidden z-10">
+                        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-12 items-center">
+                            
+                            {/* Left Text Column */}
+                            <div className="md:col-span-7 flex flex-col gap-6 text-left">
+                                <div className="inline-flex">
+                                    <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider dark:bg-white/5 bg-slate-100 dark:border-white/5 border-slate-200 border text-brand-blue flex items-center gap-1.5">
+                                        <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+                                        Educación Élite sin Coste
+                                    </span>
+                                </div>
+                                
+                                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight dark:text-white text-slate-950 leading-[1.1]">
+                                    Aprende Desarrollo Web <br/>
+                                    <span className="text-gradient">Gratis</span> con Certificados
+                                </h1>
+                                
+                                <p className="text-base md:text-lg dark:text-gray-400 text-gray-600 max-w-xl leading-relaxed">
+                                    Olvídate de préstamos estudiantiles y bootcamps genéricos. Filtramos y curamos exclusivamente cursos de universidades prestigiosas (Harvard, Helsinki) y laboratorios interactivos mundiales. 100% libre, de alta calidad y verificable en LinkedIn.
+                                </p>
+
+                                <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+                                    <a href="#cursos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl font-semibold bg-gradient-to-r from-brand-blue to-brand-cyan text-white hover:opacity-90 active:scale-[0.98] shadow-lg shadow-brand-blue/20">
+                                        Explorar Cursos <i data-lucide="arrow-right" className="w-5 h-5"></i>
+                                    </a>
+                                    <a href="#roadmap" className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl font-semibold dark:bg-white/5 bg-slate-100 dark:hover:bg-white/10 hover:bg-slate-200 border dark:border-white/5 border-slate-200 transition-all">
+                                        Ver Roadmap <i data-lucide="map" className="w-5 h-5"></i>
+                                    </a>
+                                </div>
+
+                                {/* Stats Bar */}
+                                <div className="grid grid-cols-3 gap-6 pt-10 border-t dark:border-white/5 border-slate-200 mt-6">
+                                    <div>
+                                        <p className="text-2xl md:text-3xl font-extrabold dark:text-white text-slate-950">11</p>
+                                        <p className="text-xs dark:text-gray-400 text-gray-500">Plataformas Clave</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-2xl md:text-3xl font-extrabold dark:text-white text-slate-950">100%</p>
+                                        <p className="text-xs dark:text-gray-400 text-gray-500">Gratis Verificado</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-2xl md:text-3xl font-extrabold dark:text-white text-slate-950">Oficial</p>
+                                        <p className="text-xs dark:text-gray-400 text-gray-500">Certificación</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right Mockup/Graphics Column */}
+                            <div className="md:col-span-5 relative hidden md:block">
+                                <div className="absolute inset-0 dark:bg-gradient-to-r from-brand-blue/10 to-brand-violet/10 blur-[50px] rounded-full"></div>
+                                {/* Tech Card Floating Grid */}
+                                <div className="relative dark:bg-slate-900/60 bg-white/60 dark:border-white/10 border-slate-200 border backdrop-blur-xl rounded-2xl p-6 shadow-2xl flex flex-col gap-4">
+                                    <div className="flex items-center justify-between border-b dark:border-white/5 border-slate-200 pb-4">
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-3.5 h-3.5 rounded-full bg-red-500"></span>
+                                            <span className="w-3.5 h-3.5 rounded-full bg-yellow-500"></span>
+                                            <span className="w-3.5 h-3.5 rounded-full bg-green-500"></span>
+                                        </div>
+                                        <span className="text-xs font-semibold dark:text-gray-400 text-gray-500">openpath-stats.js</span>
+                                    </div>
+                                    <pre className="text-xs font-mono dark:text-blue-400 text-blue-700 leading-relaxed overflow-x-auto">
+{`const corePlatforms = {
+  harvard: "CS50x Intro",
+  helsinki: "Full Stack Open",
+  freeCodeCamp: "Responsive Web",
+  cisco: "Python Essentials"
+};
+
+console.log("🚀 Tu carrera empieza hoy!");
+// Certificaciones oficiales listas
+const price = 0;`}
+                                    </pre>
+                                    <div className="dark:bg-[#030303]/60 bg-slate-50 border dark:border-white/5 border-slate-100 rounded-xl p-4 flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                            <i data-lucide="award"></i>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-bold dark:text-white text-slate-950">Certificados Digitales</p>
+                                            <p className="text-xs dark:text-gray-400 text-gray-500">Descargables y linkeables</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    {}
+                    <section id="cursos" className="py-20 z-10 relative scroll-mt-20">
+                        <div className="max-w-7xl mx-auto px-6">
+                            
+                            {/* Section Intro */}
+                            <div className="text-center max-w-2xl mx-auto mb-16">
+                                <h2 className="text-3xl font-extrabold tracking-tight dark:text-white text-slate-950 mb-4">
+                                    Catálogo de Cursos Élite
+                                </h2>
+                                <p className="dark:text-gray-400 text-gray-600">
+                                    Utiliza el motor de búsqueda en tiempo real para encontrar exactamente lo que necesitas aprender. Filtra por dificultad, tecnología o certificación.
+                                </p>
+                            </div>
+
+                            {/* Search input & interactive pills container */}
+                            <div className="dark:bg-[#0a0a0c]/80 bg-white/90 dark:border-white/5 border-slate-200 border rounded-2xl p-6 shadow-xl mb-12 backdrop-blur-md">
+                                <div className="relative mb-6">
+                                    <i data-lucide="search" className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                    <input 
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        placeholder="Buscar por tecnología (React, Python, SQL, C...), plataforma o categoría..."
+                                        className="w-full pl-12 pr-4 py-4 rounded-xl dark:bg-black/50 bg-slate-50 dark:border-white/10 border-slate-200 border focus:outline-none focus:ring-2 focus:ring-brand-blue dark:text-white text-slate-950 placeholder-gray-400 text-base md:text-lg transition-all"
+                                    />
+                                    {searchQuery && (
+                                        <button 
+                                            onClick={() => setSearchQuery("")}
+                                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                                        >
+                                            <i data-lucide="x"></i>
+                                        </button>
+                                    )}
+                                </div>
+
+                                {/* Interactive Filter Badges */}
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-wider dark:text-gray-400 text-gray-500 mb-3.5">Filtros rápidos de categoría y nivel:</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {[
+                                            "Frontend", "Backend", "Full Stack", "Python", "IA", "DevOps", 
+                                            "Principiante", "Intermedio", "Avanzado", "Certificado Gratis"
+                                        ].map((filter) => {
+                                            const isActive = selectedFilters.includes(filter);
+                                            return (
+                                                <button
+                                                    key={filter}
+                                                    onClick={() => toggleFilter(filter)}
+                                                    className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all border ${
+                                                        isActive 
+                                                            ? 'bg-brand-blue text-white border-brand-blue' 
+                                                            : 'dark:bg-white/5 bg-slate-100 hover:bg-slate-200 dark:hover:bg-white/10 dark:border-white/5 border-slate-200 dark:text-gray-300 text-slate-700'
+                                                    }`}
+                                                >
+                                                    {filter}
+                                                </button>
+                                            );
+                                        })}
+                                        {selectedFilters.length > 0 && (
+                                            <button 
+                                                onClick={() => setSelectedFilters([])}
+                                                className="px-4 py-2 rounded-lg text-xs font-bold text-red-500 dark:hover:bg-red-500/10 hover:bg-red-500/5 transition-colors"
+                                            >
+                                                Limpiar filtros ({selectedFilters.length})
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Interactive Result Count */}
+                            <div className="flex items-center justify-between mb-8">
+                                <p className="text-sm dark:text-gray-400 text-gray-500 font-medium">
+                                    Mostrando <span className="dark:text-white text-slate-950 font-bold">{filteredCourses.length}</span> de <span className="font-bold">{COURSES.length}</span> programas educativos
+                                </p>
+                            </div>
+
+                            {/* GRID OF COURSES */}
+                            {filteredCourses.length > 0 ? (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {filteredCourses.map(course => (
+                                        <div 
+                                            key={course.id} 
+                                            className="dark:bg-slate-950/40 bg-white/90 border dark:border-white/5 border-slate-200 hover:border-brand-blue/30 dark:hover:border-white/10 rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between shadow-md relative group overflow-hidden"
+                                        >
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-brand-blue/5 to-transparent blur-xl group-hover:scale-125 transition-transform"></div>
+                                            
+                                            <div>
+                                                {/* Header Row */}
+                                                <div className="flex justify-between items-start mb-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-9 h-9 rounded-lg ${course.color} flex items-center justify-center font-bold text-white text-xs shadow`}>
+                                                            {course.initials}
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-xs font-bold dark:text-gray-400 text-gray-600">{course.platform}</p>
+                                                            <div className="flex items-center gap-1">
+                                                                <i data-lucide="star" className="w-3 h-3 text-yellow-500 fill-yellow-500"></i>
+                                                                <span className="text-xs font-semibold dark:text-white text-slate-800">{course.rating}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {course.cert && (
+                                                        <span className="px-2.5 py-1 rounded bg-brand-cyan/10 text-[10px] text-brand-cyan font-bold uppercase tracking-wider">
+                                                            Certificado
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                <h3 className="text-lg font-bold dark:text-white text-slate-950 mb-3 group-hover:text-brand-cyan transition-colors line-clamp-2">
+                                                    {course.title}
+                                                </h3>
+
+                                                <p className="text-xs dark:text-gray-400 text-gray-500 leading-relaxed mb-4 line-clamp-3">
+                                                    {course.description}
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                {/* Tech pills row */}
+                                                <div className="flex flex-wrap gap-1.5 mb-5">
+                                                    {course.tech.map(t => (
+                                                        <span key={t} className="px-2 py-0.5 rounded text-[10px] font-semibold dark:bg-white/5 bg-slate-100 dark:border-white/5 border-slate-200 dark:text-gray-300 text-slate-600 border">
+                                                            {t}
+                                                        </span>
+                                                    ))}
+                                                </div>
+
+                                                {/* Footer Info & Link */}
+                                                <div className="flex items-center justify-between pt-4 border-t dark:border-white/5 border-slate-200">
+                                                    <div className="flex items-center gap-3 text-xs dark:text-gray-400 text-gray-600">
+                                                        <span className="flex items-center gap-1 font-medium"><i data-lucide="bar-chart" className="w-3.5 h-3.5 text-brand-cyan"></i> {course.difficulty}</span>
+                                                        <span className="flex items-center gap-1 font-medium"><i data-lucide="clock" className="w-3.5 h-3.5 text-brand-blue"></i> {course.duration}</span>
+                                                    </div>
+
+                                                    <a 
+                                                        href={course.url} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer" 
+                                                        className="inline-flex items-center justify-center p-2 rounded-lg dark:bg-white/5 bg-slate-100 text-brand-cyan hover:bg-brand-cyan hover:text-white transition-all shadow-sm"
+                                                        title="Visitar curso oficial"
+                                                    >
+                                                        <i data-lucide="external-link" className="w-4 h-4"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-16 dark:bg-slate-900/40 bg-white/90 rounded-2xl border border-dashed dark:border-white/10 border-slate-300">
+                                    <i data-lucide="alert-circle" className="w-12 h-12 text-slate-400 mx-auto mb-4"></i>
+                                    <p className="text-lg font-bold">No se encontraron cursos</p>
+                                    <p className="text-sm text-gray-400 mt-1">Prueba a simplificar la búsqueda o limpiar los filtros seleccionados.</p>
+                                    <button 
+                                        onClick={() => { setSelectedFilters([]); setSearchQuery(""); }}
+                                        className="mt-4 px-5 py-2.5 rounded-lg font-bold bg-brand-blue text-white"
+                                    >
+                                        Reiniciar buscador
+                                    </button>
+                                </div>
+                            )}
+
+                        </div>
+                    </section>
+
+                    {}
+                    <section id="roadmap" className="py-20 dark:bg-slate-950/20 bg-slate-100/50 border-y dark:border-white/5 border-slate-200/80 z-10 relative scroll-mt-20">
+                        <div className="max-w-7xl mx-auto px-6">
+                            
+                            <div className="text-center max-w-2xl mx-auto mb-16">
+                                <span className="px-2.5 py-1 rounded bg-brand-violet/10 text-xs font-bold text-brand-violet uppercase tracking-wider">Tu Ruta Paso a Paso</span>
+                                <h2 className="text-3xl font-extrabold tracking-tight dark:text-white text-slate-950 mt-3 mb-4">
+                                    Mapa de Aprendizaje de Cero a Full Stack
+                                </h2>
+                                <p className="dark:text-gray-400 text-gray-600">
+                                    Haz clic en cualquiera de las fases del camino interactivo para descubrir los conceptos nucleares recomendados y los cursos recomendados vinculados directamente.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-12 gap-8 items-start">
+                                
+                                {/* Timeline Side Column (8 steps) */}
+                                <div className="md:col-span-6 flex flex-col gap-4">
+                                    {ROADMAP_STEPS.map((step, idx) => {
+                                        const isActive = activeRoadmapStep === idx;
+                                        return (
+                                            <button 
+                                                key={step.id}
+                                                onClick={() => setActiveRoadmapStep(idx)}
+                                                className={`w-full text-left p-5 rounded-xl border transition-all duration-300 flex items-center gap-4 ${
+                                                    isActive 
+                                                        ? 'dark:bg-slate-900 bg-white border-brand-cyan shadow-lg' 
+                                                        : 'dark:bg-[#0a0a0c]/40 bg-white/50 dark:border-white/5 border-slate-200 hover:border-slate-300 dark:hover:border-white/10'
+                                                }`}
+                                            >
+                                                <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center font-bold text-xs ${
+                                                    isActive ? 'bg-brand-cyan text-white' : 'dark:bg-white/10 bg-slate-200'
+                                                }`}>
+                                                    {step.id}
+                                                </div>
+                                                <div>
+                                                    <span className="text-[10px] font-bold uppercase tracking-wide text-brand-blue">{step.subtitle}</span>
+                                                    <h4 className="font-bold text-sm md:text-base dark:text-white text-slate-950">{step.title}</h4>
+                                                </div>
+                                                <div className="ml-auto">
+                                                    <i data-lucide="chevron-right" className={`w-5 h-5 transition-transform ${isActive ? 'rotate-90 text-brand-cyan' : 'text-slate-400'}`}></i>
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                {/* Curated Resource Details Pane */}
+                                <div className="md:col-span-6 sticky top-28 dark:bg-[#0a0a0c]/80 bg-white/90 border dark:border-white/5 border-slate-200 rounded-2xl p-6 md:p-8 shadow-xl backdrop-blur-md">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 text-brand-cyan flex items-center justify-center font-bold">
+                                            {ROADMAP_STEPS[activeRoadmapStep].id}
+                                        </div>
+                                        <div>
+                                            <span className="text-xs font-bold uppercase tracking-wider text-brand-violet">{ROADMAP_STEPS[activeRoadmapStep].subtitle}</span>
+                                            <h3 className="text-xl font-extrabold dark:text-white text-slate-950">{ROADMAP_STEPS[activeRoadmapStep].title}</h3>
+                                        </div>
+                                    </div>
+
+                                    <p className="dark:text-gray-300 text-gray-600 text-sm leading-relaxed mb-6">
+                                        {ROADMAP_STEPS[activeRoadmapStep].desc}
+                                    </p>
+
+                                    <div className="border-t dark:border-white/5 border-slate-200 pt-6">
+                                        <h4 className="text-xs font-bold dark:text-white text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-1.5">
+                                            <i data-lucide="graduation-cap" className="w-4 h-4 text-brand-cyan"></i>
+                                            Plataformas recomendadas para este paso:
+                                        </h4>
+                                        <ul className="space-y-2.5">
+                                            {ROADMAP_STEPS[activeRoadmapStep].resources.map((res, i) => (
+                                                <li key={i} className="flex items-center gap-2.5 text-sm dark:text-gray-400 text-gray-700">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
+                                                    {res}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    <div className="mt-8">
+                                        <a 
+                                            href="#cursos"
+                                            onClick={() => setSearchQuery(ROADMAP_STEPS[activeRoadmapStep].title.split(" ")[0])}
+                                            className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl font-bold dark:bg-white bg-slate-900 text-white dark:text-slate-950 text-sm"
+                                        >
+                                            Filtrar Cursos de este paso <i data-lucide="search" className="w-4 h-4"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </section>
+
+                    {}
+                    <section id="ia-chat" className="py-20 z-10 relative scroll-mt-20">
+                        <div className="max-w-4xl mx-auto px-6">
+                            
+                            <div className="text-center mb-12">
+                                <span className="px-2.5 py-1 rounded bg-brand-cyan/10 text-xs font-bold text-brand-cyan uppercase tracking-wider">Integración Real Grok (xAI)</span>
+                                <h2 className="text-3xl font-extrabold dark:text-white text-slate-950 mt-3 mb-4">Orientador de Carrera con IA</h2>
+                                <p className="dark:text-gray-400 text-gray-600 max-w-xl mx-auto">
+                                    Pregúntale al chat sobre tu nivel y objetivos. El sistema está 100% cableado de forma nativa para conectarse a la API oficial de Grok. Puedes añadir tu propia clave de manera segura y local.
+                                </p>
+                            </div>
+
+                            {/* Chat Widget Glassbox */}
+                            <div className="dark:bg-[#0a0a0c]/80 bg-white/90 border dark:border-white/5 border-slate-200 rounded-2xl shadow-2xl overflow-hidden flex flex-col backdrop-blur-md">
+                                
+                                {/* Chat Header / API Controller */}
+                                <div className="px-6 py-4 dark:bg-slate-950/60 bg-slate-50 border-b dark:border-white/5 border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-cyan to-brand-violet flex items-center justify-center shadow">
+                                            <i data-lucide="bot" className="text-white w-5 h-5 animate-pulse"></i>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-sm dark:text-white text-slate-950">OpenPath Mentor</h4>
+                                            <p className="text-[10px] text-emerald-500 font-bold flex items-center gap-1">
+                                                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> 
+                                                {apiKey ? "API Real Grok Conectada" : "Modo Simulación Activo"}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Action controller keys */}
+                                    <div className="flex items-center gap-2">
+                                        {apiKey ? (
+                                            <button 
+                                                onClick={handleRemoveApiKey}
+                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+                                            >
+                                                Desconectar API Key
+                                            </button>
+                                        ) : (
+                                            <button 
+                                                onClick={() => setShowApiKeyInput(!showApiKeyInput)}
+                                                className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan/20 transition-colors flex items-center gap-1"
+                                            >
+                                                <i data-lucide="key" className="w-3.5 h-3.5"></i> Configurar Grok API
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* API Key Setup Panel */}
+                                {showApiKeyInput && (
+                                    <form onSubmit={handleSaveApiKey} className="p-4 dark:bg-slate-900 bg-slate-100 border-b dark:border-white/5 border-slate-200 animate-slide-down flex flex-col gap-3">
+                                        <p className="text-xs dark:text-gray-300 text-gray-600">
+                                            Tu clave de API se almacena de forma segura **solo en tu navegador (localStorage)** y se envía directamente a la API oficial de xAI (`https://api.x.ai/v1`).
+                                        </p>
+                                        <div className="flex gap-2">
+                                            <input 
+                                                type="password"
+                                                value={apiKey}
+                                                onChange={(e) => setApiKey(e.target.value)}
+                                                placeholder="Inserta tu xAI (Grok) API Key (sk-...)"
+                                                required
+                                                className="flex-1 px-3 py-2 rounded-lg dark:bg-black/50 bg-white border dark:border-white/10 border-slate-300 text-xs focus:outline-none"
+                                            />
+                                            <button type="submit" className="px-4 py-2 bg-brand-cyan text-white text-xs font-bold rounded-lg hover:opacity-90">
+                                                Guardar
+                                            </button>
+                                        </div>
+                                    </form>
+                                )}
+
+                                {/* Message Window Panel */}
+                                <div className="p-6 h-[350px] overflow-y-auto flex flex-col gap-4">
+                                    {chatMessages.map(msg => {
+                                        if (msg.role === 'system') {
+                                            return (
+                                                <div key={msg.id} className="text-center">
+                                                    <span className="inline-block px-3 py-1 rounded bg-slate-500/10 text-slate-500 text-[10px] font-mono leading-relaxed max-w-lg">
+                                                        {msg.text}
+                                                    </span>
+                                                </div>
+                                            );
+                                        }
+
+                                        const isAssistant = msg.role === 'assistant';
+                                        return (
+                                            <div 
+                                                key={msg.id} 
+                                                className={`flex gap-3 max-w-[85%] ${isAssistant ? '' : 'self-end flex-row-reverse'}`}
+                                            >
+                                                <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs ${
+                                                    isAssistant ? 'bg-brand-cyan text-white' : 'bg-brand-blue text-white'
+                                                }`}>
+                                                    {isAssistant ? "AI" : "Tú"}
+                                                </div>
+                                                <div className={`p-4 rounded-2xl text-xs md:text-sm leading-relaxed ${
+                                                    isAssistant 
+                                                        ? 'dark:bg-slate-900/50 bg-slate-100 dark:text-gray-200 text-slate-900 rounded-tl-sm' 
+                                                        : 'bg-brand-blue text-white rounded-tr-sm'
+                                                }`}>
+                                                    {msg.text}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+
+                                    {chatLoading && (
+                                        <div className="flex gap-3 max-w-[85%]">
+                                            <div className="w-8 h-8 rounded-full bg-brand-cyan text-white flex items-center justify-center text-xs">AI</div>
+                                            <div className="p-4 rounded-2xl dark:bg-slate-900/50 bg-slate-100 flex items-center gap-1 rounded-tl-sm">
+                                                <span className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-bounce"></span>
+                                                <span className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                                                <span className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div ref={chatEndRef}></div>
+                                </div>
+
+                                {/* Input Panel */}
+                                <form onSubmit={handleSendMessage} className="p-4 dark:bg-slate-950/60 bg-slate-50 border-t dark:border-white/5 border-slate-200 flex gap-2">
+                                    <input 
+                                        type="text"
+                                        value={chatInput}
+                                        onChange={(e) => setChatInput(e.target.value)}
+                                        placeholder={apiKey ? "Escribe a Grok..." : "Pregúntame sobre 'Python desde cero', 'React', o conecta tu Grok API Key..."}
+                                        className="flex-1 px-4 py-3 rounded-xl dark:bg-black/50 bg-white border dark:border-white/10 border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-blue dark:text-white text-slate-950 text-xs md:text-sm transition-all"
+                                    />
+                                    <button 
+                                        type="submit"
+                                        className="p-3 bg-brand-cyan text-white rounded-xl hover:opacity-90 shadow-md transition-all shrink-0"
+                                    >
+                                        <i data-lucide="send" className="w-4 h-4 md:w-5 h-5"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+
+                            {/* API integration guidelines */}
+                            <div className="mt-6 text-center">
+                                <p className="text-xs dark:text-gray-500 text-gray-500">
+                                    ¿No tienes API Key? Entra en <a href="https://console.x.ai" target="_blank" rel="noopener noreferrer" className="text-brand-cyan underline">console.x.ai</a>, genera tus credenciales de Grok, recarga saldo y pruébalo de forma real de inmediato.
+                                </p>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    {}
+                    <section id="faq" className="py-20 z-10 relative scroll-mt-20 dark:bg-slate-950/20 bg-slate-100/30 border-y dark:border-white/5 border-slate-200">
+                        <div className="max-w-4xl mx-auto px-6">
+                            
+                            <div className="text-center mb-16">
+                                <h2 className="text-3xl font-extrabold tracking-tight dark:text-white text-slate-950 mb-4">Preguntas Frecuentes</h2>
+                                <p className="dark:text-gray-400 text-gray-600 max-w-xl mx-auto">
+                                    Resolviendo tus dudas básicas sobre las plataformas asociadas, certificados y veracidad de contenidos.
+                                </p>
+                            </div>
+
+                            <div className="space-y-4">
+                                {[
+                                    { q: "¿Los certificados son realmente gratis?", a: "Sí. Las plataformas sugeridas como freeCodeCamp, Full Stack Open y MOOC.fi de la Universidad de Helsinki proveen certificados oficiales digitales completamente gratuitos. CS50x de Harvard permite obtener un certificado digital verificado de su propio curso si obtienes un 70%+ en sus evaluaciones sin coste adicional." },
+                                    { q: "¿Necesito experiencia previa?", a: "No. Cursos como Responsive Web Design o CS50P de Harvard están ideados desde cero para absolutos novatos que tocan una línea de código por primera vez." },
+                                    { q: "¿Qué curso debería empezar primero?", a: "Para desarrollo frontend, inicia con la certificación de Responsive Web Design de freeCodeCamp. Para lógica algorítmica y fundamentos amplios, el inigualable CS50x de Harvard es tu mejor camino." },
+                                    { q: "¿Los cursos sirven para trabajar?", a: "Absolutamente. De hecho, programas avanzados como Full Stack Open de Helsinki equivalen a un intensivo bootcamp industrial de varios meses muy respetado en el ecosistema técnico." },
+                                    { q: "¿Puedo aprender desde cero?", a: "Sí. Todo el contenido está estructurado de manera autodidacta y secuencial para progresar paso a paso sin vacíos educativos complejos." }
+                                ].map((faq, idx) => {
+                                    const isOpen = faqOpen === idx;
+                                    return (
+                                        <div key={idx} className="dark:bg-[#0a0a0c]/80 bg-white border dark:border-white/5 border-slate-200 rounded-2xl overflow-hidden shadow-sm transition-all duration-300">
+                                            <button 
+                                                onClick={() => setFaqOpen(isOpen ? null : idx)}
+                                                className="w-full px-6 py-5 flex items-center justify-between font-bold text-left dark:text-white text-slate-950 text-sm md:text-base"
+                                            >
+                                                <span>{faq.q}</span>
+                                                <i data-lucide={isOpen ? 'minus' : 'plus'} className={`w-4 h-4 text-brand-cyan transition-transform`}></i>
+                                            </button>
+                                            <div className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-60 opacity-100 border-t dark:border-white/5 border-slate-200 p-6' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                                                <p className="dark:text-gray-400 text-gray-600 text-xs md:text-sm leading-relaxed">
+                                                    {faq.a}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                        </div>
+                    </section>
+
+                    {}
+                    <section className="py-20 z-10 relative">
+                        <div className="max-w-4xl mx-auto px-6">
+                            
+                            <div className="dark:bg-[#0a0a0c]/80 bg-white border dark:border-white/5 border-slate-200 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden backdrop-blur-md">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-brand-violet/5 to-transparent blur-2xl"></div>
+                                
+                                <div className="max-w-2xl mx-auto text-center flex flex-col gap-6">
+                                    <h2 className="text-3xl font-extrabold tracking-tight dark:text-white text-slate-950">
+                                        Suscríbete para recibir nuevas alertas
+                                    </h2>
+                                    <p className="dark:text-gray-400 text-gray-600 text-sm md:text-base leading-relaxed">
+                                        Recibe semanalmente curación de nuevos programas libres de coste agregados, guías técnicas útiles y roadmaps de inserción laboral rápidos. No spam, solo valor real.
+                                    </p>
+
+                                    {newsletterStatus === "success" ? (
+                                        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-semibold text-sm animate-fade-in flex items-center justify-center gap-2">
+                                            <i data-lucide="check-circle" className="w-5 h-5"></i> ¡Te has suscrito con éxito! Guarda tu bandeja de entrada.
+                                        </div>
+                                    ) : (
+                                        <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
+                                            <input 
+                                                type="email"
+                                                value={emailInput}
+                                                onChange={(e) => setEmailInput(e.target.value)}
+                                                placeholder="Introduce tu dirección de email..."
+                                                required
+                                                className="flex-1 px-4 py-3.5 rounded-xl dark:bg-black/50 bg-slate-50 border dark:border-white/10 border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-blue text-sm dark:text-white text-slate-950 transition-all"
+                                            />
+                                            <button 
+                                                type="submit"
+                                                disabled={newsletterStatus === "loading"}
+                                                className="px-6 py-3.5 bg-brand-cyan hover:opacity-90 active:scale-[0.98] text-white font-bold rounded-xl text-sm shadow-md shadow-brand-cyan/20 shrink-0 transition-all flex items-center justify-center gap-2"
+                                            >
+                                                {newsletterStatus === "loading" ? (
+                                                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                                ) : "Suscribirse"}
+                                            </button>
+                                        </form>
+                                    )}
+
+                                    <p className="text-[10px] dark:text-gray-500 text-gray-400">
+                                        Al suscribirte, aceptas que guardemos tu correo de forma local para enviarte novedades de OpenPath.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    {}
+                    <section className="py-24 text-center relative z-10 overflow-hidden border-t dark:border-white/5 border-slate-200">
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-1/2 bg-brand-cyan/10 blur-[100px] rounded-full pointer-events-none"></div>
+                        <div className="max-w-2xl mx-auto px-6 flex flex-col gap-6">
+                            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight dark:text-white text-slate-950">
+                                Comienza hoy tu carrera sin deudas
+                            </h2>
+                            <p className="dark:text-gray-400 text-gray-600 text-base">
+                                No esperes más. El conocimiento de nivel mundial está al alcance de un par de clics. Elige tu rumbo y empieza a construir.
+                            </p>
+                            <div className="flex justify-center pt-2">
+                                <a href="#cursos" className="px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-brand-blue to-brand-cyan text-white text-base shadow-lg hover:opacity-90 active:scale-[0.98]">
+                                    Explorar Cursos Gratuitos
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {}
+                    <footer className="border-t dark:border-white/5 border-slate-200 dark:bg-[#030303]/80 bg-slate-50/50 py-12 relative z-10">
+                        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                            
+                            <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-blue to-brand-violet flex items-center justify-center font-bold text-white text-sm">
+                                    OP
+                                </div>
+                                <span className="font-bold tracking-tight dark:text-white text-slate-950">OpenPath</span>
+                            </div>
+
+                            <div className="text-center md:text-right">
+                                <p className="text-xs dark:text-gray-500 text-gray-500 leading-relaxed">
+                                    © 2026 OpenPath. Esta plataforma es un catálogo curado independiente de recursos públicos libres. <br/>
+                                    No estamos afiliados a Harvard, Helsinki, Cisco u otras marcas aquí mencionadas de forma oficial.
+                                </p>
+                            </div>
+
+                        </div>
+                    </footer>
+
+                </div>
+            );
+        };
+
+        // Mount the React Application
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
