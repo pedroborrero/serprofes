@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowAdmin | User Management</title>
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos (Phosphor Icons - Modernos y limpios) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración de Tailwind -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            bg: '#0a0a0a',
+                            surface: '#121212',
+                            border: '#27272a'
+                        },
+                        light: {
+                            bg: '#f8fafc',
+                            surface: '#ffffff',
+                            border: '#e2e8f0'
+                        },
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            accent: '#0ea5e9'
+                        }
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Scrollbar Premium */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Glassmorphism & UI Effects */
+        .glass {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        .input-focus-ring:focus {
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Toast Notifications */
+        .toast-enter {
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .toast-exit {
+            animation: fadeOut 0.3s forwards;
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* Background Gradients */
+        .bg-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -200px;
+            left: -200px;
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .dark .bg-glow {
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(0,0,0,0) 70%);
+        }
+    </style>
+</head>
+
+<body class="bg-light-bg dark:bg-dark-bg text-slate-800 dark:text-slate-200 min-h-screen transition-colors duration-300 relative overflow-x-hidden">
+    
+    <!-- Ambient Background -->
+    <div class="bg-glow hidden dark:block"></div>
+    <div class="absolute top-40 right-0 w-[500px] h-[500px] bg-brand-accent/5 rounded-full blur-[100px] -z-10 pointer-events-none hidden dark:block"></div>
+
+    <!-- Header Sticky -->
+    <header class="sticky top-0 z-40 w-full border-b border-light-border dark:border-dark-border bg-white/70 dark:bg-dark-surface/70 glass transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-accent flex items-center justify-center shadow-lg shadow-brand-500/20">
+                        <i class="ph ph-hexagon text-white text-xl"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Flow<span class="text-brand-500">Admin</span></span>
+                </div>
+                
+                <!-- Acciones Top -->
+                <div class="flex items-center gap-4">
+                    <button id="themeToggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 transition-colors text-slate-500 dark:text-slate-400 focus:outline-none">
+                        <i class="ph ph-moon text-xl hidden dark:block" id="moonIcon"></i>
+                        <i class="ph ph-sun text-xl block dark:hidden" id="sunIcon"></i>
+                    </button>
+                    <div class="w-8 h-8 rounded-full border border-light-border dark:border-dark-border overflow-hidden">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=141414&color=fff" alt="Admin" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+        
+        <!-- Stats Row -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8" id="statsContainer">
+            <!-- Renderizado dinámico -->
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Columna Izquierda: Formulario -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="bg-white dark:bg-dark-surface border border-light-border dark:border-dark-border rounded-2xl p-6 shadow-sm relative overflow-hidden transition-colors duration-300">
+                    
+                    <!-- Decorative line -->
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-500 to-brand-accent"></div>
+
+                    <div class="mb-6">
+                        <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2" id="formTitle">
+                            <i class="ph ph-user-plus text-brand-500"></i> Nuevo Usuario
+                        </h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Añade o edita un miembro del equipo.</p>
+                    </div>
+
+                    <form id="userForm" class="space-y-4">
+                        <input type="hidden" id="userId">
+                        
+                        <!-- Input Nombre -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nombre Completo</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="ph ph-user text-slate-400"></i>
+                                </div>
+                                <input type="text" id="name" required placeholder="Ej. Jane Doe" 
+                                    class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-[#0f0f0f] border border-slate-200 dark:border-dark-border rounded-xl text-sm focus:outline-none focus:border-brand-500 dark:focus:border-brand-500 input-focus-ring transition-all placeholder-slate-400 dark:text-white">
+                            </div>
+                        </div>
+
+                        <!-- Input Email -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Correo Electrónico</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="ph ph-envelope-simple text-slate-400"></i>
+                                </div>
+                                <input type="email" id="email" required placeholder="jane@empresa.com" 
+                                    class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-[#0f0f0f] border border-slate-200 dark:border-dark-border rounded-xl text-sm focus:outline-none focus:border-brand-500 dark:focus:border-brand-500 input-focus-ring transition-all placeholder-slate-400 dark:text-white">
+                            </div>
+                        </div>
+
+                        <!-- Select Rol -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Rol en el sistema</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="ph ph-shield-check text-slate-400"></i>
+                                </div>
+                                <select id="role" required 
+                                    class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-[#0f0f0f] border border-slate-200 dark:border-dark-border rounded-xl text-sm focus:outline-none focus:border-brand-500 dark:focus:border-brand-500 input-focus-ring transition-all appearance-none cursor-pointer dark:text-white">
+                                    <option value="" disabled selected>Selecciona un rol</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Editor">Editor</option>
+                                    <option value="Usuario">Usuario Regular</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <i class="ph ph-caret-down text-slate-400"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones Submit/Cancel -->
+                        <div class="pt-2 flex gap-3">
+                            <button type="button" id="cancelEditBtn" class="hidden flex-1 px-4 py-2.5 bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border text-slate-700 dark:text-slate-300 rounded-xl text-sm font-medium hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                                Cancelar
+                            </button>
+                            <button type="submit" id="submitBtn" class="flex-1 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white rounded-xl text-sm font-medium shadow-md shadow-brand-500/20 transform hover:-translate-y-0.5 transition-all">
+                                <i class="ph ph-plus-circle text-lg"></i>
+                                <span>Guardar Usuario</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Tips Card -->
+                <div class="bg-gradient-to-br from-brand-50 to-brand-100/50 dark:from-brand-900/10 dark:to-brand-800/5 border border-brand-100 dark:border-brand-900/30 rounded-2xl p-5">
+                    <div class="flex items-start gap-3">
+                        <i class="ph ph-lightbulb text-brand-500 text-xl mt-0.5"></i>
+                        <div>
+                            <h4 class="text-sm font-semibold text-brand-900 dark:text-brand-300">Gestión de Accesos</h4>
+                            <p class="text-xs text-brand-700 dark:text-brand-400/80 mt-1 leading-relaxed">
+                                Los Administradores tienen control total. Los Editores pueden modificar contenido, y los Usuarios solo tienen permisos de visualización.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Tabla y Filtros -->
+            <div class="lg:col-span-8 flex flex-col space-y-4">
+                
+                <!-- Barra de herramientas (Search & Filters) -->
+                <div class="bg-white dark:bg-dark-surface border border-light-border dark:border-dark-border rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4 transition-colors duration-300">
+                    
+                    <!-- Search -->
+                    <div class="relative w-full sm:w-64">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="ph ph-magnifying-glass text-slate-400"></i>
+                        </div>
+                        <input type="text" id="searchInput" placeholder="Buscar usuarios..." 
+                            class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-[#0f0f0f] border border-slate-200 dark:border-dark-border rounded-lg text-sm focus:outline-none focus:border-brand-500 input-focus-ring transition-all dark:text-white">
+                    </div>
+
+                    <!-- Filtros (Pills) -->
+                    <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0" id="filterContainer">
+                        <button class="filter-btn active px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-slate-900 text-white dark:bg-white dark:text-slate-900" data-filter="Todos">
+                            Todos
+                        </button>
+                        <button class="filter-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10" data-filter="Administrador">
+                            Admins
+                        </button>
+                        <button class="filter-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10" data-filter="Editor">
+                            Editores
+                        </button>
+                        <button class="filter-btn px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10" data-filter="Usuario">
+                            Usuarios
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contenedor de la Tabla -->
+                <div class="bg-white dark:bg-dark-surface border border-light-border dark:border-dark-border rounded-2xl shadow-sm flex-1 flex flex-col overflow-hidden transition-colors duration-300">
+                    <div class="overflow-x-auto flex-1">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-light-border dark:border-dark-border bg-slate-50/50 dark:bg-white/[0.02]">
+                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Usuario</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Rol</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Fecha Alta</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody" class="divide-y divide-light-border dark:divide-dark-border">
+                                <!-- Contenido Dinámico -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Estado Vacío (Oculto por defecto) -->
+                    <div id="emptyState" class="hidden flex-col items-center justify-center py-16 px-4 text-center">
+                        <div class="w-16 h-16 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
+                            <i class="ph ph-users text-3xl text-slate-400 dark:text-slate-500"></i>
+                        </div>
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">No hay usuarios</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-sm">
+                            Comienza añadiendo un nuevo usuario desde el formulario o ajusta los filtros de búsqueda.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Contenedor de Notificaciones (Toasts) -->
+    <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <script>
+        // --- ESTADO DE LA APLICACIÓN ---
+        let users = [];
+        let currentFilter = 'Todos';
+        let searchQuery = '';
+        let editingUserId = null;
+
+        // --- CONSTANTES UI ---
+        const roleColors = {
+            'Administrador': { bg: 'bg-red-100 dark:bg-red-500/10', text: 'text-red-700 dark:text-red-400', icon: 'ph-shield-star' },
+            'Editor': { bg: 'bg-blue-100 dark:bg-blue-500/10', text: 'text-blue-700 dark:text-blue-400', icon: 'ph-pencil-simple' },
+            'Usuario': { bg: 'bg-emerald-100 dark:bg-emerald-500/10', text: 'text-emerald-700 dark:text-emerald-400', icon: 'ph-user' }
+        };
+
+        // --- INICIALIZACIÓN ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadUsers();
+            setupEventListeners();
+            renderAll();
+        });
+
+        // --- MANEJO DE TEMA (DARK/LIGHT) ---
+        function initTheme() {
+            const themeToggleBtn = document.getElementById('themeToggle');
+            
+            // Verificar preferencia guardada o sistema
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.theme = 'dark';
+                } else {
+                    localStorage.theme = 'light';
+                }
+            });
+        }
+
+        // --- MANEJO DE DATOS (LOCALSTORAGE) ---
+        function loadUsers() {
+            const stored = localStorage.getItem('flowAdmin_users');
+            if (stored) {
+                users = JSON.parse(stored);
+            } else {
+                // Datos de ejemplo para primera visita
+                users = [
+                    { id: generateId(), name: 'Alex Rivera', email: 'alex@flowadmin.com', role: 'Administrador', date: new Date().toISOString() },
+                    { id: generateId(), name: 'Sam Taylor', email: 'sam@flowadmin.com', role: 'Editor', date: new Date(Date.now() - 86400000).toISOString() },
+                    { id: generateId(), name: 'Jordan Lee', email: 'jordan@empresa.com', role: 'Usuario', date: new Date(Date.now() - 172800000).toISOString() }
+                ];
+                saveUsers();
+            }
+        }
+
+        function saveUsers() {
+            localStorage.setItem('flowAdmin_users', JSON.stringify(users));
+        }
+
+        function generateId() {
+            return Math.random().toString(36).substr(2, 9);
+        }
+
+        function formatDate(isoString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(isoString).toLocaleDateString('es-ES', options);
+        }
+
+        // --- STREAMING_CHUNK: Lógica de Notificaciones (Toasts)... ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            // Configurar diseño según el tipo
+            const isSuccess = type === 'success';
+            const icon = isSuccess ? 'ph-check-circle text-emerald-500' : 'ph-x-circle text-red-500';
+            const bgColor = 'bg-white dark:bg-[#1a1a1a]';
+            const borderColor = 'border-slate-200 dark:border-[#333]';
+
+            toast.className = `toast-enter flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border ${borderColor} ${bgColor} pointer-events-auto`;
+            
+            toast.innerHTML = `
+                <i class="ph ${icon} text-xl"></i>
+                <span class="text-sm font-medium text-slate-800 dark:text-slate-200">${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            // Eliminar toast después de 3 segundos
+            setTimeout(() => {
+                toast.classList.replace('toast-enter', 'toast-exit');
+                setTimeout(() => toast.remove(), 300); // Esperar animación
+            }, 3000);
+        }
+
+        // --- STREAMING_CHUNK: Funciones de Renderizado (Estadísticas y Tabla)... ---
+        function renderAll() {
+            renderStats();
+            renderTable();
+        }
+
+        function renderStats() {
+            const statsContainer = document.getElementById('statsContainer');
+            const total = users.length;
+            const admins = users.filter(u => u.role === 'Administrador').length;
+            const editors = users.filter(u => u.role === 'Editor').length;
+            const regular = users.filter(u => u.role === 'Usuario').length;
+
+            const statCards = [
+                { label: 'Total Usuarios', value: total, icon: 'ph-users', color: 'text-brand-500', bg: 'bg-brand-500/10' },
+                { label: 'Administradores', value: admins, icon: 'ph-shield-check', color: 'text-red-500', bg: 'bg-red-500/10' },
+                { label: 'Editores', value: editors, icon: 'ph-pencil-simple', color: 'text-blue-500', bg: 'bg-blue-500/10' },
+                { label: 'Usuarios Activos', value: regular, icon: 'ph-user-check', color: 'text-emerald-500', bg: 'bg-emerald-500/10' }
+            ];
+
+            statsContainer.innerHTML = statCards.map(stat => `
+                <div class="bg-white dark:bg-dark-surface border border-light-border dark:border-dark-border rounded-2xl p-5 shadow-sm flex items-center gap-4 transition-colors duration-300 transform hover:scale-[1.02]">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center ${stat.bg}">
+                        <i class="ph ${stat.icon} text-2xl ${stat.color}"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">${stat.label}</p>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">${stat.value}</h3>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('userTableBody');
+            const emptyState = document.getElementById('emptyState');
+            const tableElement = tbody.parentElement;
+
+            // Aplicar Filtros y Búsqueda
+            let filteredUsers = users;
+            
+            if (currentFilter !== 'Todos') {
+                filteredUsers = filteredUsers.filter(u => u.role === currentFilter);
+            }
+
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredUsers = filteredUsers.filter(u => 
+                    u.name.toLowerCase().includes(query) || 
+                    u.email.toLowerCase().includes(query)
+                );
+            }
+
+            // Mostrar/Ocultar Empty State
+            if (filteredUsers.length === 0) {
+                tableElement.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+            } else {
+                tableElement.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+            }
+
+            tbody.innerHTML = filteredUsers.map(user => {
+                const roleStyle = roleColors[user.role];
+                const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff&rounded=true&bold=true`;
+                
+                return `
+                    <tr class="group hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center gap-3">
+                                <img class="h-10 w-10 rounded-full border border-slate-200 dark:border-[#333] shadow-sm" src="${avatarUrl}" alt="${user.name}">
+                                <div>
+                                    <div class="text-sm font-semibold text-slate-900 dark:text-white">${user.name}</div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-400">${user.email}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium ${roleStyle.bg} ${roleStyle.text}">
+                                <i class="ph ${roleStyle.icon}"></i>
+                                ${user.role}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                            ${formatDate(user.date)}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="editUser('${user.id}')" class="p-1.5 text-slate-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors rounded-md hover:bg-blue-50 dark:hover:bg-blue-500/10" title="Editar">
+                                    <i class="ph ph-pencil-simple text-lg"></i>
+                                </button>
+                                <button onclick="deleteUser('${user.id}')" class="p-1.5 text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition-colors rounded-md hover:bg-red-50 dark:hover:bg-red-500/10" title="Eliminar">
+                                    <i class="ph ph-trash text-lg"></i>
+                                </button>
+                            </div>
+                            <!-- Fallback for mobile (always visible) -->
+                            <div class="flex items-center justify-end gap-2 group-hover:hidden lg:hidden">
+                                <button onclick="editUser('${user.id}')" class="p-1.5 text-slate-400"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                <button onclick="deleteUser('${user.id}')" class="p-1.5 text-slate-400"><i class="ph ph-trash text-lg"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // --- STREAMING_CHUNK: Lógica CRUD y Event Listeners... ---
+        function setupEventListeners() {
+            // Manejo del Formulario
+            const form = document.getElementById('userForm');
+            const cancelBtn = document.getElementById('cancelEditBtn');
+            const searchInput = document.getElementById('searchInput');
+
+            form.addEventListener('submit', handleFormSubmit);
+            
+            cancelBtn.addEventListener('click', resetForm);
+
+            // Búsqueda en tiempo real
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderTable();
+            });
+
+            // Filtros
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Actualizar UI de botones
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-slate-900', 'text-white', 'dark:bg-white', 'dark:text-slate-900');
+                        b.classList.add('bg-slate-100', 'text-slate-600', 'dark:bg-white/5', 'dark:text-slate-300');
+                    });
+                    
+                    e.target.classList.remove('bg-slate-100', 'text-slate-600', 'dark:bg-white/5', 'dark:text-slate-300');
+                    e.target.classList.add('bg-slate-900', 'text-white', 'dark:bg-white', 'dark:text-slate-900');
+
+                    // Actualizar estado y renderizar
+                    currentFilter = e.target.dataset.filter;
+                    renderTable();
+                });
+            });
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const id = document.getElementById('userId').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const role = document.getElementById('role').value;
+
+            // Validación básica extra (el HTML required ya hace parte)
+            if (!name || !email || !role) {
+                showToast('Por favor, completa todos los campos.', 'error');
+                return;
+            }
+
+            // Comprobar duplicados (excepto si es el mismo usuario editándose)
+            const isDuplicate = users.some(u => u.email.toLowerCase() === email.toLowerCase() && u.id !== id);
+            if (isDuplicate) {
+                showToast('Este correo electrónico ya está registrado.', 'error');
+                return;
+            }
+
+            // Simular estado de carga en el botón
+            const btn = document.getElementById('submitBtn');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-lg"></i><span>Guardando...</span>`;
+            btn.disabled = true;
+
+            setTimeout(() => {
+                if (editingUserId) {
+                    // Actualizar
+                    const index = users.findIndex(u => u.id === editingUserId);
+                    if (index !== -1) {
+                        users[index] = { ...users[index], name, email, role };
+                        showToast('Usuario actualizado correctamente.');
+                    }
+                } else {
+                    // Crear nuevo
+                    const newUser = {
+                        id: generateId(),
+                        name,
+                        email,
+                        role,
+                        date: new Date().toISOString()
+                    };
+                    users.unshift(newUser); // Añadir al principio
+                    showToast('Usuario añadido correctamente.');
+                }
+
+                saveUsers();
+                renderAll();
+                resetForm();
+
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }, 600); // Pequeño delay para simular proceso de red y dar sensación premium
+        }
+
+        // --- STREAMING_CHUNK: Acciones de Fila (Editar/Eliminar)... ---
+        window.editUser = function(id) {
+            const user = users.find(u => u.id === id);
+            if (!user) return;
+
+            editingUserId = id;
+            
+            // Poblar formulario
+            document.getElementById('userId').value = user.id;
+            document.getElementById('name').value = user.name;
+            document.getElementById('email').value = user.email;
+            document.getElementById('role').value = user.role;
+
+            // Actualizar UI del formulario
+            document.getElementById('formTitle').innerHTML = `<i class="ph ph-pencil-simple text-brand-500"></i> Editar Usuario`;
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = `<i class="ph ph-floppy-disk text-lg"></i><span>Actualizar Cambios</span>`;
+            
+            document.getElementById('cancelEditBtn').classList.remove('hidden');
+            document.getElementById('cancelEditBtn').classList.add('block');
+
+            // Scroll suave hacia el formulario en móviles
+            if (window.innerWidth < 1024) {
+                document.getElementById('userForm').scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        window.deleteUser = function(id) {
+            // Confirmación personalizada usando UI nativa temporal (se evita alert)
+            // Para una experiencia real premium se haría un Modal, pero para un solo archivo mantenemos la lógica directa con un check
+            const user = users.find(u => u.id === id);
+            if(confirm(`¿Estás seguro de que deseas eliminar a ${user.name}? Esta acción no se puede deshacer.`)) {
+                users = users.filter(u => u.id !== id);
+                saveUsers();
+                renderAll();
+                showToast('Usuario eliminado correctamente.');
+                
+                // Si estábamos editando este usuario, resetear
+                if (editingUserId === id) resetForm();
+            }
+        };
+
+        function resetForm() {
+            editingUserId = null;
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            
+            document.getElementById('formTitle').innerHTML = `<i class="ph ph-user-plus text-brand-500"></i> Nuevo Usuario`;
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = `<i class="ph ph-plus-circle text-lg"></i><span>Guardar Usuario</span>`;
+            
+            document.getElementById('cancelEditBtn').classList.add('hidden');
+            document.getElementById('cancelEditBtn').classList.remove('block');
+        }
+    </script>
+</body>
+</html>
