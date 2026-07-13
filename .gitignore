@@ -1,2 +1,2 @@
-clone-compi/
-ejercicio/
+**/node_modules
+**/.env
