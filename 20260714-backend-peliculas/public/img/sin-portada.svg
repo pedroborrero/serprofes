@@ -1,0 +1,9 @@
+<svg width="500" height="750" viewBox="0 0 500 750" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="750" fill="#2b2b2b"/>
+  <rect x="20" y="20" width="460" height="710" fill="none" stroke="#555" stroke-width="2" stroke-dasharray="10,8"/>
+  <g fill="#888" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
+    <text x="250" y="350" font-size="90">🎬</text>
+    <text x="250" y="420" font-size="32" font-weight="bold">Sin portada</text>
+    <text x="250" y="455" font-size="18" fill="#666">disponible</text>
+  </g>
+</svg>
